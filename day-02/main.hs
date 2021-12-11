@@ -33,8 +33,8 @@ readLines = fmap lines . readFile
 calculateScore :: State -> Int
 calculateScore (depth, hpos) = depth * hpos
 
-main :: IO()
-main = do
+mainPartOne :: IO()
+mainPartOne = do
     -- rawInstructions <- readLines "./example.txt" -- should be 150
     rawInstructions <- readLines "./instructions.txt" -- should be 1484118
     print $ calculateScore $ navigate (0, 0) $ parseInstructions rawInstructions

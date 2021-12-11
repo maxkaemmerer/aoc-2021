@@ -33,8 +33,27 @@ readLines = fmap lines . readFile
 calculateScore :: State -> Int
 calculateScore (depth, hpos) = depth * hpos
 
+type StateWithAim = (Int, Int, Int)
+
+applyInstructionWithAim :: StateWithAim -> Instruction -> StateWithAim
+applyInstructionWithAim (depth, hpos, aim) (Down distance) = (depth, hpos, aim + distance)
+applyInstructionWithAim (depth, hpos, aim) (Forward distance) = (depth + (aim * distance), hpos + distance, aim)
+applyInstructionWithAim (depth, hpos, aim) (Up distance) = (depth, hpos, aim - distance)
+
+navigateWithAim :: StateWithAim -> [Instruction] -> StateWithAim
+navigateWithAim = foldl applyInstructionWithAim
+
+calculateScoreWithAim :: StateWithAim -> Int
+calculateScoreWithAim (depth, hpos, _) = depth * hpos
+
 mainPartOne :: IO()
 mainPartOne = do
     -- rawInstructions <- readLines "./example.txt" -- should be 150
     rawInstructions <- readLines "./instructions.txt" -- should be 1484118
     print $ calculateScore $ navigate (0, 0) $ parseInstructions rawInstructions
+
+mainPartTwo :: IO()
+mainPartTwo = do
+    -- rawInstructions <- readLines "./example.txt" -- should be 900
+    rawInstructions <- readLines "./instructions.txt" -- should be 1484118
+    print $ calculateScoreWithAim $ navigateWithAim (0, 0, 0) $ parseInstructions rawInstructions

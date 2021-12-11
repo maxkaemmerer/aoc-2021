@@ -14,10 +14,8 @@ countIncreases measurements = foldl incrementIfLarger (0, maximum measurements) 
 stringsToInts :: [String] -> [Int]
 stringsToInts = map read
 
-
 readLines :: FilePath -> IO [String]
 readLines = fmap lines . readFile
-
 
 sumFirstThree :: [Int] -> Maybe Int
 sumFirstThree list

@@ -102,7 +102,7 @@ mainPartOne = do
 mainPartTwo :: IO()
 mainPartTwo = do
     -- rawInput <- readLines "./example.txt" -- should be 1924
-    rawInput <- readLines "./boards.txt" -- should be ?
+    rawInput <- readLines "./boards.txt" -- should be 24742
     let turns = (mapMaybe readMaybe :: [String] -> [Int]) $ splitString ',' $ head rawInput
     let boards = parseBoards rawInput
     print $ calculateScore $ applyTurnsUntilOneBoardIsLeft turns boards

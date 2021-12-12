@@ -41,7 +41,7 @@ bitToInt bit = case bit of
 
 mostCommonBit :: [Bit] -> Bit
 mostCommonBit bits
-    | length ones > length zeroes = One
+    | length ones >= length zeroes = One
     | otherwise = Zero
     where
         ones = filter (== One) bits
@@ -61,9 +61,39 @@ calculateGammaRate bits = (listOfBitsToDecimal 0) $ map mostCommonBit $ transpos
 calculateEpsilonRate :: [[Bit]] -> Int
 calculateEpsilonRate bits = (listOfBitsToDecimal 0) $ map leastCommonBit $ transpose bits
 
+calculateOxygenGeneratorRating :: [[Bit]] -> Int
+calculateOxygenGeneratorRating bits = (listOfBitsToDecimal 0) $ breakDownListOfBitsToMostCommon bits
+
+calculateCO2ScrubberRating :: [[Bit]] -> Int
+calculateCO2ScrubberRating bits = (listOfBitsToDecimal 0) $ breakDownListOfBitsToLeastCommon bits
+
+breakDownListOfBitsToMostCommon :: [[Bit]] -> [Bit]
+breakDownListOfBitsToMostCommon bits = case bits of
+    [x] -> x
+    (x:y:xs) -> mostCommon : breakDownListOfBitsToMostCommon remainingBits
+    where
+        mostCommon = mostCommonBit $ head $ transpose bits
+        remainingBits = map tail $ filter (\measurement -> mostCommon == head measurement) bits
+
+breakDownListOfBitsToLeastCommon :: [[Bit]] -> [Bit]
+breakDownListOfBitsToLeastCommon bits = case bits of
+    [x] -> x
+    (x:y:xs) -> leastCommon : breakDownListOfBitsToLeastCommon remainingBits
+    where
+        leastCommon = leastCommonBit $ head $ transpose bits
+        remainingBits = map tail $ filter (\measurement -> leastCommon == head measurement) bits
+
 mainPartOne :: IO()
 mainPartOne = do
     -- rawDiagnostics <- readLines "./example.txt" -- should be 198
     rawDiagnostics <- readLines "./diagnostics.txt" -- should be 2261546
     let bits = map mapStringToBits rawDiagnostics
-    print ((calculateGammaRate bits ) * (calculateEpsilonRate bits))
+    print $ calculateGammaRate bits * calculateEpsilonRate bits
+
+mainPartTwo :: IO()
+mainPartTwo = do
+    -- rawDiagnostics <- readLines "./example.txt" -- should be 230
+    rawDiagnostics <- readLines "./diagnostics.txt" -- should be 6775520
+    let bits = map mapStringToBits rawDiagnostics
+    print $ calculateOxygenGeneratorRating bits * calculateCO2ScrubberRating bits
+             

@@ -1,3 +1,6 @@
+## Introduction
+In this project I am slowly making by way through [Advent Of Code 2021](https://adventofcode.com/2021) using Haskell, a language I always wanted to learn but always struggled with. The code in this repo is not optimized and can most definetly be improved. This is simply a way for me to learn a new language and not a recommendation on how to write or structure your Haskell code.
+
 ### Setup
 1. Install hspec dependencies `cabal update && cabal install --package-env=. --lib hspec hspec-contrib QuickCheck HUnit`
 

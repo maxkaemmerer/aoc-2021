@@ -1,13 +1,13 @@
+module Day03 (mainPartOne, mainPartTwo) where
+
 import Data.List
 import Data.Maybe
 import Text.Read
+import Util
 
 data Bit = Zero
     | One
     deriving (Show, Eq)
-
-readLines :: FilePath -> IO [String]
-readLines = fmap lines . readFile
 
 intToBit :: Int -> Maybe Bit
 intToBit i = case i of
@@ -83,17 +83,15 @@ breakDownListOfBitsToLeastCommon bits = case bits of
         leastCommon = leastCommonBit $ head $ transpose bits
         remainingBits = map tail $ filter (\measurement -> leastCommon == head measurement) bits
 
-mainPartOne :: IO()
-mainPartOne = do
-    -- rawDiagnostics <- readLines "./example.txt" -- should be 198
-    rawDiagnostics <- readLines "./diagnostics.txt" -- should be 2261546
+mainPartOne :: String -> IO Int
+mainPartOne file = do
+    rawDiagnostics <- readLines file
     let bits = map mapStringToBits rawDiagnostics
-    print $ calculateGammaRate bits * calculateEpsilonRate bits
+    pure $ calculateGammaRate bits * calculateEpsilonRate bits
 
-mainPartTwo :: IO()
-mainPartTwo = do
-    -- rawDiagnostics <- readLines "./example.txt" -- should be 230
-    rawDiagnostics <- readLines "./diagnostics.txt" -- should be 6775520
+mainPartTwo :: String -> IO Int
+mainPartTwo file = do
+    rawDiagnostics <- readLines file
     let bits = map mapStringToBits rawDiagnostics
-    print $ calculateOxygenGeneratorRating bits * calculateCO2ScrubberRating bits
+    pure $ calculateOxygenGeneratorRating bits * calculateCO2ScrubberRating bits
              

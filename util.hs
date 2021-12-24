@@ -1,3 +1,5 @@
+module Util (readLines, tailWithEmpty, splitString, safeHead) where
+
 import Data.List
 
 readLines :: FilePath -> IO [String]
@@ -13,3 +15,8 @@ splitString :: Char -> String -> [String]
 splitString delimiter string = case string of
     [] -> []
     xs -> takeWhile (/= delimiter) xs : (splitString delimiter $ tailWithEmpty $ dropWhile (/=delimiter) xs)
+
+safeHead :: [a] -> Maybe a
+safeHead list = case list of
+    [] -> Nothing
+    (x:xs) -> Just x

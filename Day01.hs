@@ -1,7 +1,10 @@
+module Day01 (mainPartOne, mainPartTwo) where
+
 import qualified Data.Text    as Text
 import qualified Data.Text.IO as IoText
 import Data.Maybe
 import Data.List
+import Util
 
 incrementIfLarger :: (Int, Int) -> Int -> (Int, Int)
 incrementIfLarger (total, previous) current
@@ -13,9 +16,6 @@ countIncreases measurements = foldl incrementIfLarger (0, maximum measurements) 
 
 stringsToInts :: [String] -> [Int]
 stringsToInts = map read
-
-readLines :: FilePath -> IO [String]
-readLines = fmap lines . readFile
 
 sumFirstThree :: [Int] -> Maybe Int
 sumFirstThree list
@@ -30,16 +30,14 @@ mapToThreeMeasures measurements = mapMaybe sumFirstThree $ tails measurements
 tails' :: [Int] -> [[Int]]
 tails' list = foldl (\rests val -> rests ++ [(tail $ last rests)]) [list] list
 
-mainPartOne :: IO()
-mainPartOne = do
-    measurements <- readLines "./measurements.txt" -- should be 1475
-    -- measurements <- readLines "./example.txt" -- should be 7
+mainPartOne :: String -> IO Int
+mainPartOne file = do
+    measurements <- readLines file
     let measurementsAsInts = stringsToInts measurements
-    print $ fst $ countIncreases measurementsAsInts
+    pure $ fst $ countIncreases measurementsAsInts
 
-mainPartTwo :: IO()
-mainPartTwo = do
-    measurements <- readLines "./measurements.txt" -- should be 1516
-    -- measurements <- readLines "./example.txt" -- should be 5
+mainPartTwo :: String ->  IO Int
+mainPartTwo file = do
+    measurements <- readLines file
     let measurementsAsInts = stringsToInts measurements
-    print $ fst $ countIncreases $ mapToThreeMeasures measurementsAsInts
+    pure $ fst $ countIncreases $ mapToThreeMeasures measurementsAsInts

@@ -1,31 +1,18 @@
+module Day04 (mainPartOne, mainPartTwo) where
+
 import Data.List
 import Data.Maybe
 import Text.Read
 import qualified Data.Text as Text (pack, unpack, replace)
-import  Distribution.Simple.Utils (safeHead)
-
+import Util
 
 type Field = (Int, Bool)
 type Board = [[Field]]
-
-readLines :: FilePath -> IO [String]
-readLines = fmap lines . readFile
-
-tailWithEmpty :: [a] -> [a]
-tailWithEmpty list = case list of
-    [] -> []
-    (x:xs) -> xs
-
-splitString :: Char -> String -> [String]
-splitString delimiter string = case string of
-    [] -> []
-    xs -> takeWhile (/= delimiter) xs : (splitString delimiter $ tailWithEmpty $ dropWhile (/=delimiter) xs)
 
 inputIntoBoards :: [String] -> [[String]]
 inputIntoBoards string = case string of
     [] -> []
     xs -> takeWhile (/="") xs : (inputIntoBoards $ tailWithEmpty $ dropWhile (/="") xs)
-
 
 replaceInString :: String -> String -> String -> String
 replaceInString needle replacement haystack = 
@@ -91,18 +78,16 @@ calculateScore (lastNumber, board) = lastNumber * boardSum
 fieldToScore :: Field -> Int
 fieldToScore (number, marked) = if marked then 0 else number
 
-mainPartOne :: IO()
-mainPartOne = do
-    -- rawInput <- readLines "./example.txt" -- should be 4512
-    rawInput <- readLines "./boards.txt" -- should be 10374
+mainPartOne :: String -> IO Int
+mainPartOne file = do
+    rawInput <- readLines file
     let turns = (mapMaybe readMaybe :: [String] -> [Int]) $ splitString ',' $ head rawInput
     let boards = parseBoards rawInput
-    print $ calculateScore $ applyTurnsUntilVictory turns boards
+    pure $ calculateScore $ applyTurnsUntilVictory turns boards
 
-mainPartTwo :: IO()
-mainPartTwo = do
-    -- rawInput <- readLines "./example.txt" -- should be 1924
-    rawInput <- readLines "./boards.txt" -- should be 24742
+mainPartTwo :: String -> IO Int
+mainPartTwo file = do
+    rawInput <- readLines file
     let turns = (mapMaybe readMaybe :: [String] -> [Int]) $ splitString ',' $ head rawInput
     let boards = parseBoards rawInput
-    print $ calculateScore $ applyTurnsUntilOneBoardIsLeft turns boards
+    pure $ calculateScore $ applyTurnsUntilOneBoardIsLeft turns boards

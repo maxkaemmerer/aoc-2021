@@ -2,7 +2,7 @@ module Day02 (mainPartOne, mainPartTwo) where
 
 import Text.Read
 import Data.Maybe
-import Util
+import qualified Util
 
 data Instruction = Forward Int
                 | Down Int
@@ -48,12 +48,10 @@ calculateScoreWithAim (depth, hpos, _) = depth * hpos
 
 mainPartOne :: String -> IO Int
 mainPartOne file = do
-    -- rawInstructions <- readLines "./example.txt" -- should be 150
-    rawInstructions <- readLines file -- should be 1484118
+    rawInstructions <- Util.readLines file
     pure $ calculateScore $ navigate (0, 0) $ parseInstructions rawInstructions
 
 mainPartTwo :: String -> IO Int
 mainPartTwo file = do
-    -- rawInstructions <- readLines "./example.txt" -- should be 900
-    rawInstructions <- readLines file -- should be 1484118
+    rawInstructions <- Util.readLines file
     pure $ calculateScoreWithAim $ navigateWithAim (0, 0, 0) $ parseInstructions rawInstructions

@@ -4,7 +4,7 @@ import Data.List
 import Data.Maybe
 import Text.Read
 import qualified Data.Text as Text (pack, unpack, replace)
-import Util
+import qualified Util
 
 type Field = (Int, Bool)
 type Board = [[Field]]
@@ -12,7 +12,7 @@ type Board = [[Field]]
 inputIntoBoards :: [String] -> [[String]]
 inputIntoBoards string = case string of
     [] -> []
-    xs -> takeWhile (/="") xs : (inputIntoBoards $ tailWithEmpty $ dropWhile (/="") xs)
+    xs -> takeWhile (/="") xs : (inputIntoBoards $ Util.tailWithEmpty $ dropWhile (/="") xs)
 
 replaceInString :: String -> String -> String -> String
 replaceInString needle replacement haystack = 
@@ -40,13 +40,13 @@ stringsToInts :: [String] -> [Int]
 stringsToInts =  (mapMaybe readMaybe :: [String] -> [Int])
 
 stringToFields :: String -> [Field]
-stringToFields = (map intToField) . stringsToInts . splitString ' ' . strip . replaceInString "  " " "
+stringToFields = (map intToField) . stringsToInts . Util.splitString ' ' . strip . replaceInString "  " " "
 
 parseBoards :: [String] -> [Board]
 parseBoards lines = map (map stringToFields) $ filter (/=[]) $ inputIntoBoards $ tail lines
 
 findVictoriousBoard :: [Board] -> Maybe Board
-findVictoriousBoard boards = safeHead $ filter isVictorious boards
+findVictoriousBoard boards = Util.safeHead $ filter isVictorious boards
 
 findNonVictoriousBoard :: [Board] -> [Board]
 findNonVictoriousBoard boards = filter (not . isVictorious) boards
@@ -80,14 +80,14 @@ fieldToScore (number, marked) = if marked then 0 else number
 
 mainPartOne :: String -> IO Int
 mainPartOne file = do
-    rawInput <- readLines file
-    let turns = (mapMaybe readMaybe :: [String] -> [Int]) $ splitString ',' $ head rawInput
+    rawInput <- Util.readLines file
+    let turns = (mapMaybe readMaybe :: [String] -> [Int]) $ Util.splitString ',' $ head rawInput
     let boards = parseBoards rawInput
     pure $ calculateScore $ applyTurnsUntilVictory turns boards
 
 mainPartTwo :: String -> IO Int
 mainPartTwo file = do
-    rawInput <- readLines file
-    let turns = (mapMaybe readMaybe :: [String] -> [Int]) $ splitString ',' $ head rawInput
+    rawInput <- Util.readLines file
+    let turns = (mapMaybe readMaybe :: [String] -> [Int]) $ Util.splitString ',' $ head rawInput
     let boards = parseBoards rawInput
     pure $ calculateScore $ applyTurnsUntilOneBoardIsLeft turns boards

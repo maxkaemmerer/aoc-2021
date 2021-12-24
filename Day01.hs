@@ -4,7 +4,7 @@ import qualified Data.Text    as Text
 import qualified Data.Text.IO as IoText
 import Data.Maybe
 import Data.List
-import qualified Util
+import qualified AocUtil
 
 incrementIfLarger :: (Int, Int) -> Int -> (Int, Int)
 incrementIfLarger (total, previous) current
@@ -32,12 +32,12 @@ tails' list = foldl (\rests val -> rests ++ [(tail $ last rests)]) [list] list
 
 mainPartOne :: String -> IO Int
 mainPartOne file = do
-    measurements <- Util.readLines file
+    measurements <- AocUtil.readLines file
     let measurementsAsInts = stringsToInts measurements
     pure $ fst $ countIncreases measurementsAsInts
 
 mainPartTwo :: String ->  IO Int
 mainPartTwo file = do
-    measurements <- Util.readLines file
+    measurements <- AocUtil.readLines file
     let measurementsAsInts = stringsToInts measurements
     pure $ fst $ countIncreases $ mapToThreeMeasures measurementsAsInts

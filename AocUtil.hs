@@ -1,4 +1,4 @@
-module Util (readLines, tailWithEmpty, splitString, safeHead) where
+module AocUtil (readLines, tailWithEmpty, splitString, safeHead) where
 
 import Data.List
 

@@ -2,7 +2,7 @@ module Day02 (mainPartOne, mainPartTwo) where
 
 import Text.Read
 import Data.Maybe
-import qualified Util
+import qualified AocUtil
 
 data Instruction = Forward Int
                 | Down Int
@@ -48,10 +48,10 @@ calculateScoreWithAim (depth, hpos, _) = depth * hpos
 
 mainPartOne :: String -> IO Int
 mainPartOne file = do
-    rawInstructions <- Util.readLines file
+    rawInstructions <- AocUtil.readLines file
     pure $ calculateScore $ navigate (0, 0) $ parseInstructions rawInstructions
 
 mainPartTwo :: String -> IO Int
 mainPartTwo file = do
-    rawInstructions <- Util.readLines file
+    rawInstructions <- AocUtil.readLines file
     pure $ calculateScoreWithAim $ navigateWithAim (0, 0, 0) $ parseInstructions rawInstructions

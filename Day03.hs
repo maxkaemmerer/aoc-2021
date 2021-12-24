@@ -3,7 +3,7 @@ module Day03 (mainPartOne, mainPartTwo) where
 import Data.List
 import Data.Maybe
 import Text.Read
-import qualified Util
+import qualified AocUtil
 
 data Bit = Zero
     | One
@@ -85,13 +85,13 @@ breakDownListOfBitsToLeastCommon bits = case bits of
 
 mainPartOne :: String -> IO Int
 mainPartOne file = do
-    rawDiagnostics <- Util.readLines file
+    rawDiagnostics <- AocUtil.readLines file
     let bits = map mapStringToBits rawDiagnostics
     pure $ calculateGammaRate bits * calculateEpsilonRate bits
 
 mainPartTwo :: String -> IO Int
 mainPartTwo file = do
-    rawDiagnostics <- Util.readLines file
+    rawDiagnostics <- AocUtil.readLines file
     let bits = map mapStringToBits rawDiagnostics
     pure $ calculateOxygenGeneratorRating bits * calculateCO2ScrubberRating bits
              

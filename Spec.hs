@@ -2,10 +2,10 @@
 import Test.Hspec
 import Test.QuickCheck
 import Control.Exception (evaluate)
-import qualified Day01
-import qualified Day02
-import qualified Day03
-import qualified Day04
+import qualified Solutions.Day01 as Day01
+import qualified Solutions.Day02 as Day02
+import qualified Solutions.Day03 as Day03
+import qualified Solutions.Day04 as Day04
 
 main :: IO ()
 main = hspec $ do

@@ -1,9 +1,9 @@
-module Day03 (mainPartOne, mainPartTwo) where
+module Solutions.Day03 (mainPartOne, mainPartTwo) where
 
 import Data.List
 import Data.Maybe
 import Text.Read
-import qualified AocUtil
+import qualified Solutions.Util
 
 data Bit = Zero
     | One
@@ -85,13 +85,13 @@ breakDownListOfBitsToLeastCommon bits = case bits of
 
 mainPartOne :: String -> IO Int
 mainPartOne file = do
-    rawDiagnostics <- AocUtil.readLines file
+    rawDiagnostics <- Solutions.Util.readLines file
     let bits = map mapStringToBits rawDiagnostics
     pure $ calculateGammaRate bits * calculateEpsilonRate bits
 
 mainPartTwo :: String -> IO Int
 mainPartTwo file = do
-    rawDiagnostics <- AocUtil.readLines file
+    rawDiagnostics <- Solutions.Util.readLines file
     let bits = map mapStringToBits rawDiagnostics
     pure $ calculateOxygenGeneratorRating bits * calculateCO2ScrubberRating bits
              

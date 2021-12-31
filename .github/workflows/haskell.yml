@@ -31,8 +31,6 @@ jobs:
           ${{ runner.os }}-
 
     - name: Install dependencies
-      run: |
-        cabal update
-        cabal install --package-env=. --lib hspec hspec-contrib QuickCheck HUnit
+      run: make install
     - name: Run tests
-      run: runhaskell Spec.hs
+      run: make test
